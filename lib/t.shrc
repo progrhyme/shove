@@ -1,0 +1,44 @@
+# sh
+
+__t_idx=1
+__t_total=0
+__t_ok=0
+__t_ng=0
+
+_t_incr() {
+  local _var=$1
+  local _add=${2:-1}
+  local _cur_var=$(($_var))
+  eval "${_var}=$(expr $(($_var)) + $_add)"
+}
+
+_t_either() {
+  local _t_result=$1
+  _t_incr __t_idx
+  _t_incr __t_total
+  _t_incr $_t_result
+}
+
+t_pass() {
+  echo "ok $__t_idx - $1"
+  _t_either __t_ok
+  return 0
+}
+
+t_fail() {
+  echo "not ok $__t_idx - $1"
+  _t_either __t_ng
+  return 1
+}
+
+t_report() {
+  echo
+  echo "1..$__t_total"
+  echo " Pass: $__t_ok"
+  echo " Fail: $__t_ng"
+  if [ $__t_ng -gt 0 ]; then
+    echo "FAILED."
+  else
+    echo "PASS."
+  fi
+}

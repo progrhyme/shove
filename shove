@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+
+set -eu
+
+if [ ${SHOVE_DEBUG:-} ]; then
+  set -x
+fi
+
+SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
+SHOVE_TMPFILE=./.shaq.tmp.sh
+
+target=$1
+
+: > $SHOVE_TMPFILE
+echo ". lib/t.shrc" >> $SHOVE_TMPFILE
+cat $target >> $SHOVE_TMPFILE
+echo "t_report" >> $SHOVE_TMPFILE
+
+if [ ${SHOVE_DEBUG:-} ]; then
+  SHOVE_SHELL="$SHOVE_SHELL -x"
+fi
+
+$SHOVE_SHELL $SHOVE_TMPFILE
+
+rm -f $SHOVE_TMPFILE
