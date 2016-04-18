@@ -6,13 +6,15 @@ if [ ${SHOVE_DEBUG:-} ]; then
   set -x
 fi
 
+bin_dir=$(cd $(dirname $0) && pwd)
+
 SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
 SHOVE_TMPFILE=./.shaq.tmp.sh
 
 target=$1
 
 : > $SHOVE_TMPFILE
-echo ". lib/t.shrc" >> $SHOVE_TMPFILE
+echo ". ${bin_dir}/../lib/t.shrc" >> $SHOVE_TMPFILE
 echo "t_init" >> $SHOVE_TMPFILE
 cat $target >> $SHOVE_TMPFILE
 echo "t_report" >> $SHOVE_TMPFILE
