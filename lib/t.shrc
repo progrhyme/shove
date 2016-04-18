@@ -20,15 +20,57 @@ _t_either() {
 }
 
 t_pass() {
-  echo "ok $__t_idx - $1"
+  echo "ok $__t_idx - ${1:-pass}"
   _t_either __t_ok
   return 0
 }
 
 t_fail() {
-  echo "not ok $__t_idx - $1"
+  echo "not ok $__t_idx - ${1:-fail}"
   _t_either __t_ng
   return 1
+}
+
+t_ok() {
+  local _sbj=$1
+  local _diag=${2:-"ok $1"}
+  if [ $_sbj ]; then
+    t_pass "$_diag"
+  else
+    t_fail "$_diag"
+  fi
+}
+
+t_ng() {
+  local _sbj=$1
+  local _diag=${2:-"ng $1"}
+  if [ $_sbj ]; then
+    t_fail "$_diag"
+  else
+    t_pass "$_diag"
+  fi
+}
+
+t_is() {
+  local _t_a=$1
+  local _t_b=$2
+  local _diag=${3:-"$1 is $2"}
+  if [ "$_t_a" = "$_t_b" ]; then
+    t_pass "$_diag"
+  else
+    t_fail "$_diag"
+  fi
+}
+
+t_isnt() {
+  local _t_a=$1
+  local _t_b=$2
+  local _diag=${3:-"$1 isn't $2"}
+  if [ "$_t_a" != "$_t_b" ]; then
+    t_pass "$_diag"
+  else
+    t_fail "$_diag"
+  fi
 }
 
 t_report() {
@@ -36,6 +78,7 @@ t_report() {
   echo "1..$__t_total"
   echo " Pass: $__t_ok"
   echo " Fail: $__t_ng"
+  echo
   if [ $__t_ng -gt 0 ]; then
     echo "FAILED."
   else

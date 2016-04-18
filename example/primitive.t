@@ -1,2 +1,12 @@
-t_pass 'ok'
-t_fail 'ng'
+t_pass
+t_fail
+t_ok "foo"
+t_ok "-z 'foo'"
+t_ng "-f 'no-such-file'"
+t_ng ""
+t_is 1 1
+t_is 1 2
+t_is 1 a
+t_isnt 1 a
+t_isnt 1 2
+t_isnt "a" "a"
