@@ -13,6 +13,7 @@ target=$1
 
 : > $SHOVE_TMPFILE
 echo ". lib/t.shrc" >> $SHOVE_TMPFILE
+echo "t_init" >> $SHOVE_TMPFILE
 cat $target >> $SHOVE_TMPFILE
 echo "t_report" >> $SHOVE_TMPFILE
 
