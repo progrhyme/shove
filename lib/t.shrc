@@ -54,7 +54,7 @@ t_fail() {
 }
 
 t_ok() {
-  local _sbj=$1
+  local _sbj="$1"
   local _diag=${2:-"ok $1"}
   if [ $_sbj ]; then
     t_pass "$_diag"
@@ -64,7 +64,7 @@ t_ok() {
 }
 
 t_ng() {
-  local _sbj=$1
+  local _sbj="$1"
   local _diag=${2:-"ng $1"}
   if [ $_sbj ]; then
     t_fail "$_diag"
@@ -92,6 +92,28 @@ t_isnt() {
     t_pass "$_diag"
   else
     t_fail "$_diag"
+  fi
+}
+
+t_success() {
+  local _cmd="$1"
+  local _diag=${2:-"$1 success"}
+  $_cmd
+  if [ $? -ne 0 ]; then
+    t_fail "$_diag"
+  else
+    t_pass "$_diag"
+  fi
+}
+
+t_error() {
+  local _cmd="$1"
+  local _diag=${2:-"$1 error"}
+  $_cmd
+  if [ $? -eq 0 ]; then
+    t_fail "$_diag"
+  else
+    t_pass "$_diag"
   fi
 }
 
