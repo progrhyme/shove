@@ -106,4 +106,5 @@ t_report() {
   else
     echo "PASS."
   fi
+  return $__t_ng
 }

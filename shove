@@ -21,6 +21,13 @@ if [ ${SHOVE_DEBUG:-} ]; then
   SHOVE_SHELL="$SHOVE_SHELL -x"
 fi
 
+echo "# $target by $SHOVE_SHELL"
+
+set +e
 $SHOVE_SHELL $SHOVE_TMPFILE
+result=$?
+set -e
 
 rm -f $SHOVE_TMPFILE
+
+exit $result
