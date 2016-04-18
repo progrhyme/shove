@@ -1,17 +1,48 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 set -eu
+
+version="0.0.1"
+
+bin_dir=$(cd $(dirname $0) && pwd)
+
+help() {
+  pod2text $0
+  exit 1
+}
 
 if [ ${SHOVE_DEBUG:-} ]; then
   set -x
 fi
 
-bin_dir=$(cd $(dirname $0) && pwd)
+for opt in "$@"; do
+  case "${1:-}" in
+    "-s" | "--shell" )
+      if [[ -z $2 || "$2" =~ ^-+ ]]; then
+        help
+      else
+        SHOVE_SHELL=$2
+        shift 2
+      fi
+      ;;
+    "-h" | "--help" )
+      help
+      ;;
+    "-v" | "--version" )
+      echo $version
+      exit 0
+      ;;
+    * )
+      target=${target:-$1}
+      if [[ ${1:-} ]]; then
+        shift
+      fi
+      ;;
+  esac
+done
 
 SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
 SHOVE_TMPFILE=./.shaq.tmp.sh
-
-target=$1
 
 : > $SHOVE_TMPFILE
 echo ". ${bin_dir}/../lib/t.shrc" >> $SHOVE_TMPFILE
@@ -33,3 +64,42 @@ set -e
 rm -f $SHOVE_TMPFILE
 
 exit $result
+
+: <<'__EOF__'
+
+=encoding utf8
+
+=head1 NAME
+
+B<shove> - A test tool for shell scripts
+
+=head1 SYNOPSYS
+
+    shove [-s /bin/sh] t/foo.t
+
+Help:
+
+    shove -h|--help
+
+Show version:
+
+    shove -v|--version
+
+=head1 DESCRIPTION
+
+This script runs target test scripts.
+
+=head1 AUTHORS
+
+YASUTAKE Kiyoshi E<lt>yasutake.kiyoshi@gmail.comE<gt>
+
+=head1 LICENSE
+
+The MIT License (MIT)
+
+Copyright (c) 2016 YASUTAKE Kiyoshi
+
+=cut
+
+__EOF__
+
