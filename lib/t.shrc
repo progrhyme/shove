@@ -5,6 +5,7 @@ __t_total=0
 __t_ok=0
 __t_ng=0
 __t_shell=""
+__t_level=0
 
 _t_incr() {
   local _var=$1
@@ -20,7 +21,28 @@ _t_either() {
   _t_incr $_t_result
 }
 
+_t_incr_level() {
+  __t_level=$(expr ${__t_level} + 1)
+}
+
+_t_decr_level() {
+  __t_level=$(expr ${__t_level} - 1)
+}
+
+_t_put() {
+  local i=0
+  while [ $i -lt $__t_level ]; do
+    echo -n "  "
+    i=$(expr $i + 1)
+  done
+  echo $1
+}
+
 t_init() {
+  __t_idx=1
+  __t_total=0
+  __t_ok=0
+  __t_ng=0
   local _cmd=$(ps -p $$ | tail -1 | awk '{print $4}')
   case "$_cmd" in
     *bash )
@@ -41,14 +63,18 @@ t_init() {
   esac
 }
 
+t_diag() {
+  _t_put "# $1"
+}
+
 t_pass() {
-  echo "ok $__t_idx - ${1:-pass}"
+  _t_put "ok $__t_idx - ${1:-pass}"
   _t_either __t_ok
   return 0
 }
 
 t_fail() {
-  echo "not ok $__t_idx - ${1:-fail}"
+  _t_put "not ok $__t_idx - ${1:-fail}"
   _t_either __t_ng
   return 1
 }
