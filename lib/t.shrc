@@ -158,14 +158,12 @@ t_subend() {
 }
 
 t_subclose() {
-  t_report >/dev/null
+  t_report
 }
 
 t_report() {
-  echo
-  echo "1..$__t_total"
-  echo " Pass: $__t_ok"
-  echo " Fail: $__t_ng"
-  echo
+  if [ "${1:-}" ]; then
+    printf "$__t_total\t$__t_ok\t$__t_ng\n" > $1
+  fi
   return $__t_ng
 }

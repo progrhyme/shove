@@ -55,13 +55,20 @@ fi
 # ============================================================
 # Main Entry
 
-i=0
+cat <<EOS >&1
+Run tests by $SHOVE_SHELL
+-------------------------
+EOS
+
+t_cnt=0
 for tgt in ${targets[@]}; do
-  i=$((i + 1))
+  t_cnt=$((t_cnt + 1))
   test_file $tgt
 done
 
-exit $result
+final_report
+
+exit 0
 
 : <<'__EOF__'
 
