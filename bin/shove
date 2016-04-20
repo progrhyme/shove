@@ -42,7 +42,7 @@ for opt in "$@"; do
 done
 
 SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
-SHOVE_TMPFILE=./.shaq.tmp.sh
+SHOVE_TMPFILE=./.shove.tmp.sh
 
 : > $SHOVE_TMPFILE
 echo ". ${bin_dir}/../lib/t.shrc" >> $SHOVE_TMPFILE
@@ -60,6 +60,12 @@ set +e
 $SHOVE_SHELL $SHOVE_TMPFILE
 result=$?
 set -e
+
+if [[ $result = 0 ]]; then
+  printf "\033[0;32mTests for $target - PASS.\033[0;39m\n"
+else
+  printf "\033[0;31mTests for $target - FAIL.\033[0;39m\n"
+fi
 
 rm -f $SHOVE_TMPFILE
 

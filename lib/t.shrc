@@ -35,7 +35,7 @@ _t_put() {
     printf "  "
     i=$(expr $i + 1)
   done
-  echo $1
+  printf "$1\n"
 }
 
 t_init() {
@@ -74,7 +74,7 @@ t_pass() {
 }
 
 t_fail() {
-  _t_put "not ok $__t_idx - ${1:-fail}"
+  _t_put "\033[0;31mnot ok $__t_idx - ${1:-fail}\033[0;39m"
   _t_either __t_ng
   return 1
 }
@@ -164,10 +164,5 @@ t_report() {
   echo " Pass: $__t_ok"
   echo " Fail: $__t_ng"
   echo
-  if [ $__t_ng -gt 0 ]; then
-    echo "FAILED."
-  else
-    echo "PASS."
-  fi
   return $__t_ng
 }
