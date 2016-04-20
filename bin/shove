@@ -15,6 +15,11 @@ if [ ${SHOVE_DEBUG:-} ]; then
   set -x
 fi
 
+targets=()
+
+# ============================================================
+# Parse Arguments
+
 for opt in "$@"; do
   case "${1:-}" in
     "-s" | "--shell" )
@@ -37,8 +42,8 @@ for opt in "$@"; do
       exit 0
       ;;
     * )
-      target=${target:-$1}
       if [[ ${1:-} ]]; then
+        targets+=($1)
         shift
       fi
       ;;
@@ -48,36 +53,55 @@ done
 SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
 SHOVE_TMPFILE=./.shove.tmp.sh
 
-: > $SHOVE_TMPFILE
-_add() {
-  echo "$1" >> $SHOVE_TMPFILE
-}
-_add ". ${bin_dir}/../lib/t.shrc"
-_add "t_init"
-if [[ ${SHOVE_VERBOSE:-} ]]; then
-  _add "__t_verbose=1"
-fi
-cat $target >> $SHOVE_TMPFILE
-_add "t_report"
-
 if [ ${SHOVE_DEBUG:-} ]; then
   SHOVE_SHELL="$SHOVE_SHELL -x"
 fi
 
-echo "# $target by $SHOVE_SHELL"
+# ============================================================
+# Functions
 
-set +e
-$SHOVE_SHELL $SHOVE_TMPFILE
-result=$?
-set -e
+_add() {
+  echo "$1" >> $tmp
+}
 
-if [[ $result = 0 ]]; then
-  printf "\033[0;32mTests for $target - PASS.\033[0;39m\n"
-else
-  printf "\033[0;31mTests for $target - FAIL.\033[0;39m\n"
-fi
+test_file() {
+  _t=$1
+  tmp=$SHOVE_TMPFILE.$i
 
-rm -f $SHOVE_TMPFILE
+  # create tmp test script
+  : > $tmp
+  _add ". ${bin_dir}/../lib/t.shrc"
+  _add "t_init"
+  if [[ ${SHOVE_VERBOSE:-} ]]; then
+    _add "__t_verbose=1"
+  fi
+  cat $_t >> $tmp
+  _add "t_report"
+
+  # exec tmp test script
+  echo "# $_t by $SHOVE_SHELL"
+  set +e
+  $SHOVE_SHELL $tmp
+  result=$?
+  set -e
+
+  if [[ $result = 0 ]]; then
+    printf "\033[0;32mTests for $_t - PASS.\033[0;39m\n"
+  else
+    printf "\033[0;31mTests for $_t - FAIL.\033[0;39m\n"
+  fi
+
+  rm -f $tmp
+}
+
+# ============================================================
+# Main Entry
+
+i=0
+for tgt in ${targets[@]}; do
+  i=$((i + 1))
+  test_file $tgt
+done
 
 exit $result
 
