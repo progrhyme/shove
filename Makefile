@@ -4,10 +4,13 @@ BIN     := bin/shove
 VERSION := $(shell $(BIN) -v)
 
 SHELLS := /bin/sh /bin/bash /bin/zsh dash
+TESTS  := t/basic.t t/group.t
 
 test:
 	@for sh in $(SHELLS); do \
-		( SHOVE_SHELL=$$sh $(BIN) t/basic.t ) \
+		for t in $(TESTS); do \
+			$(BIN) $$t -s $$sh; \
+		done \
 	done
 
 doc: README.md
