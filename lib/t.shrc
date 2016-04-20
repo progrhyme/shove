@@ -7,6 +7,7 @@ __t_ng=0
 __t_shell=""
 __t_level=0
 __t_verbose=""
+__t_tmpfile="./.__t_tmp.dat"
 
 _t_incr() {
   local _var=$1
@@ -127,26 +128,41 @@ t_isnt() {
   fi
 }
 
-t_success() {
+_t_try() {
   local _cmd="$1"
-  local _diag=${2:-"$1 success"}
-  $_cmd
-  if [ $? -ne 0 ]; then
+  local _type=$2
+  local _diag="$3"
+  local _fail=""
+  $_cmd > $__t_tmpfile 2>&1
+  local _ret=$?
+  if [ "$_type" = "success" ]; then
+    if [ $_ret -ne 0 ]; then
+      _fail=1
+    fi
+  elif [ $_ret -eq 0 ]; then
+    _fail=1
+  fi
+  if [ "$_fail" ]; then
     t_fail "$_diag"
+    cat $__t_tmpfile | while read _t_line; do
+      _t_put "\033[0;31m# ${_t_line}\033[0;39m"
+    done
   else
     t_pass "$_diag"
   fi
+  rm -f $__t_tmpfile
+}
+
+t_success() {
+  local _cmd="$1"
+  local _diag=${2:-"$1 success"}
+  _t_try "$_cmd" "success" "$_diag"
 }
 
 t_error() {
   local _cmd="$1"
   local _diag=${2:-"$1 error"}
-  $_cmd
-  if [ $? -eq 0 ]; then
-    t_fail "$_diag"
-  else
-    t_pass "$_diag"
-  fi
+  _t_try "$_cmd" "error" "$_diag"
 }
 
 t_substart() {
