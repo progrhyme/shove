@@ -26,6 +26,14 @@ for opt in "$@"; do
         shift 2
       fi
       ;;
+    "-r" | "--recurse" )
+      if [[ -z $2 || "$2" =~ ^-+ ]]; then
+        help
+      else
+        targets+=($(find $2 -type f -name '*.t'))
+        shift 2
+      fi
+      ;;
     "-v" | "--verbose" )
       SHOVE_VERBOSE=1
       shift
