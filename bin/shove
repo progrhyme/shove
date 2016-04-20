@@ -88,7 +88,10 @@ B<shove> - A test tool for shell scripts
 
 =head1 SYNOPSYS
 
-    shove [-s /bin/sh] t/foo.t
+    shove TARGETS [OPTIONS]
+    shove t/foo.t
+    shove t/bar.t t/bar.t -s /bin/sh -v
+    shove -r t/ -v
 
 Help:
 
@@ -96,7 +99,7 @@ Help:
 
 Show version:
 
-    shove -v|--version
+    shove -V|--version
 
 =head1 DESCRIPTION
 

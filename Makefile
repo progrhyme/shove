@@ -1,4 +1,4 @@
-.PHONY: test doc release
+.PHONY: test release
 
 BIN     := bin/shove
 VERSION := $(shell $(BIN) -V)
@@ -12,9 +12,6 @@ test:
 			$(BIN) $$t -s $$sh; \
 		done \
 	done
-
-doc: README.md
-	pod2markdown $(BIN) > README.md
 
 release:
 	git commit -m $(VERSION)

@@ -1,28 +1,81 @@
-# NAME
+# shove
 
-**shove** - A test tool for shell scripts
+A test tool for shell scripts with [TAP](https://testanything.org/) outputs.
 
-# SYNOPSYS
+The name **"shove"** comes from _"shell"_ and
+_"[prove](http://perldoc.perl.org/prove.html)"_ of Perl.
 
-    shove [-s /bin/sh] t/foo.t
+# Usage
 
-Help:
+```sh
+shove TARGETS [OPTIONS]
+shove t/foo.t
+shove t/foo.t t/bar.t -s /bin/bash -v
+shove -r t/ -v
 
-    shove -h|--help
+# help
+shove -h|--help
 
-Show version:
+# version
+shove -V|--version
+```
 
-    shove -v|--version
+## Options
 
-# DESCRIPTION
+* `-s|--shell SHELL` : SHELL to execute tests. Default is `$SHELL`.
+* `-v|--verbose` : verbose output.
 
-This script runs target test scripts.
+# How to write test codes
 
-# AUTHORS
+Many test functions get hints from
+[Test::More](http://perldoc.perl.org/Test/More.html) of Perl.
+
+There are some example test codes in [example](example) directory.
+
+## Basics
+
+```sh
+t_ok   $true   "var true is ok"  # [   $true  ]
+t_ng   $false  "var false is ng" # [ ! $false ]
+t_is   $a $b   "a is b"          # [ $a  = $b ]
+t_isnt $a $b   "a isn't b"       # [ $a != $b ]
+t_success $cmd "cmd succeeds"    # $cmd; [ $? -eq 0 ]
+t_error   $cmd "cmd fails"       # $cmd; [ $? -ne 0 ]
+```
+
+## Grouping
+
+This feature works like `subtest` of
+[Test::More](http://perldoc.perl.org/Test/More.html).
+
+```sh
+t_ok $ok
+(
+  t_substart "level1 group"
+  t_ok $lv1_ok
+  (
+    t_substart "level2 group"
+    t_ok $lv2_ok
+    t_is $lv2_a $lv2_b
+    t_subclose
+  )
+  t_subend "level2 group"
+  t_subclose
+)
+t_subend "level1 group"
+```
+
+Tests in group are run in subshell.
+So you can run them in different context from main tests context.
+
+If you want test groups A and B not affect to each other, you have to put them in
+different groups.
+
+# Authors
 
 YASUTAKE Kiyoshi <yasutake.kiyoshi@gmail.com>
 
-# LICENSE
+# License
 
 The MIT License (MIT)
 
