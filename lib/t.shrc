@@ -32,7 +32,7 @@ _t_decr_level() {
 _t_put() {
   local i=0
   while [ $i -lt $__t_level ]; do
-    echo -n "  "
+    printf "  "
     i=$(expr $i + 1)
   done
   echo $1
@@ -141,6 +141,17 @@ t_error() {
   else
     t_pass "$_diag"
   fi
+}
+
+t_substart() {
+  t_diag "${1:-substart}"
+  t_init
+  _t_incr_level
+}
+
+t_subend() {
+  t_is $? 0 "${1:-subend}"
+  _t_decr_level
 }
 
 t_report() {
