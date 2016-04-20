@@ -6,6 +6,7 @@ __t_ok=0
 __t_ng=0
 __t_shell=""
 __t_level=0
+__t_verbose=""
 
 _t_incr() {
   local _var=$1
@@ -68,7 +69,9 @@ t_diag() {
 }
 
 t_pass() {
-  _t_put "ok $__t_idx - ${1:-pass}"
+  if [ "$__t_verbose" ]; then
+    _t_put "ok $__t_idx - ${1:-pass}"
+  fi
   _t_either __t_ok
   return 0
 }

@@ -1,7 +1,7 @@
 .PHONY: test doc release
 
 BIN     := bin/shove
-VERSION := $(shell $(BIN) -v)
+VERSION := $(shell $(BIN) -V)
 
 SHELLS := /bin/sh /bin/bash /bin/zsh dash
 TESTS  := t/basic.t t/group.t

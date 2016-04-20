@@ -25,10 +25,14 @@ for opt in "$@"; do
         shift 2
       fi
       ;;
+    "-v" | "--verbose" )
+      SHOVE_VERBOSE=1
+      shift
+      ;;
     "-h" | "--help" )
       help
       ;;
-    "-v" | "--version" )
+    "-V" | "--version" )
       echo $version
       exit 0
       ;;
@@ -45,10 +49,16 @@ SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
 SHOVE_TMPFILE=./.shove.tmp.sh
 
 : > $SHOVE_TMPFILE
-echo ". ${bin_dir}/../lib/t.shrc" >> $SHOVE_TMPFILE
-echo "t_init" >> $SHOVE_TMPFILE
+_add() {
+  echo "$1" >> $SHOVE_TMPFILE
+}
+_add ". ${bin_dir}/../lib/t.shrc"
+_add "t_init"
+if [[ ${SHOVE_VERBOSE:-} ]]; then
+  _add "__t_verbose=1"
+fi
 cat $target >> $SHOVE_TMPFILE
-echo "t_report" >> $SHOVE_TMPFILE
+_add "t_report"
 
 if [ ${SHOVE_DEBUG:-} ]; then
   SHOVE_SHELL="$SHOVE_SHELL -x"
