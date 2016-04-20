@@ -8,9 +8,9 @@ t_ng ng
     t_substart "grand child"
     t_ok gc1
     t_ng gc2
-    t_report > /dev/null
+    t_subclose
   )
   t_subend "grand child"
-  t_report > /dev/null
+  t_subclose
 )
 t_subend "end child"

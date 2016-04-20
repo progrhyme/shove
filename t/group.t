@@ -5,9 +5,9 @@ t_ok ok
   (
     t_substart "grand child"
     t_ok gc1
-    t_report > /dev/null
+    t_subclose
   )
   t_subend "grand child"
-  t_report > /dev/null
+  t_subclose
 )
 t_subend "child group"
