@@ -31,6 +31,9 @@ _t_decr_level() {
 }
 
 _t_put() {
+  if [ $__t_level -gt 0 -a -z "$__t_verbose" ]; then
+    return
+  fi
   local i=0
   while [ $i -lt $__t_level ]; do
     printf "  "
@@ -154,10 +157,10 @@ t_substart() {
 
 t_subend() {
   t_is $? 0 "${1:-subend}"
-  _t_decr_level
 }
 
 t_subclose() {
+  _t_put "1..$__t_total"
   t_report
 }
 
