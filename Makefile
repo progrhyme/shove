@@ -6,9 +6,8 @@ VERSION := $(shell $(BIN) -V)
 SHELLS := /bin/sh /bin/bash /bin/zsh dash
 
 test:
-	@for sh in $(SHELLS); do \
-		$(BIN) -r t -v -s $$sh; \
-	done
+	set -e; \
+	for sh in $(SHELLS); do $(BIN) -r t -v -s $$sh; done
 
 release:
 	git commit -m $(VERSION)
