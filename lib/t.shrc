@@ -56,11 +56,11 @@ t_init() {
     *zsh )
       __t_shell="zsh"
       ;;
-    *sh )
-      __t_shell="sh"
-      ;;
     *dash )
       __t_shell="dash"
+      ;;
+    *sh )
+      __t_shell="sh"
       ;;
     * )
       __t_shell="not-supported"
