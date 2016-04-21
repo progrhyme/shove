@@ -68,7 +68,9 @@ EOS
   echo "Files=${t_cnt}, Tests=${T_TOTAL}, Successes=${T_PASS}, Failures=${T_FAIL}"
   if [[ $T_FAIL = 0 ]]; then
     echo "Result: PASS"
+    return 0
   else
     echo "Result: FAIL"
+    return 1
   fi
 }

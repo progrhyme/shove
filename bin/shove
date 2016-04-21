@@ -76,7 +76,7 @@ done
 
 final_report
 
-exit 0
+exit $?
 
 : <<'__EOF__'
 
