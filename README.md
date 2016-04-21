@@ -5,6 +5,20 @@ A test tool for shell scripts with [TAP](https://testanything.org/) outputs.
 The name **"shove"** comes from _"shell"_ and
 _"[prove](http://perldoc.perl.org/prove.html)"_ of Perl.
 
+# Screenshots
+
+Pass:
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/key-amb/shove/resource/image/screenshot-pass_01.png" alt="shove-screenshot-pass_01">
+</div>
+
+Fail:
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/key-amb/shove/resource/image/screenshot-fail_01.png" alt="shove-screenshot-fail_01">
+</div>
+
 # Usage
 
 ```sh
