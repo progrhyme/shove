@@ -1,3 +1,11 @@
+## 0.6.0 (2016/4/22)
+
+Improve:
+
+- Add _ksh_ to test targets.
+- Don't use `local` keyword for variable declaration because it's not POSIX and
+  not supported in _ksh_.
+
 ## 0.5.2 (2016/4/22)
 
 Change:
