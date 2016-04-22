@@ -8,6 +8,8 @@ _"[prove](http://perldoc.perl.org/prove.html)"_ of Perl.
 ### Table of Contents
 
 * [Screenshots](#screenshots)
+* [Supported Shells](#supported-shells)
+* [Install](#install)
 * [Usage](#usage)
   * [Options](#options)
 * [How to write test codes](#how-to-write-test-codes)
@@ -29,6 +31,35 @@ Fail:
 <div align="center">
 <img src="https://raw.githubusercontent.com/key-amb/shove/resource/image/screenshot-fail_01.png" alt="shove-screenshot-fail_01">
 </div>
+
+# Supported Shells
+
+- _sh, bash, dash, zsh_
+
+_ash_ is not tested, but supposed to work with **shove**.  
+And _ksh_ will be supported soon.
+
+No plan to support _(t)csh_ or _fish_ because they are not POSIX compatible.
+
+# Install
+
+Just clone this repository or get tarballs from [releases](releases) page.
+
+```
+# example snippet to install `shove`
+mkdir ~/src
+git clone https://github.com/key-amb/shove.git ~/src/shove
+alias shove="$HOME/src/shove/bin/shove"
+shove -V
+```
+
+You can make a symlink of `bin/shove` in your favorite path;
+i.e. `/usr/local/bin/` or `$HOME/bin/` or any path.  
+Or you can make an alias command like the snippet above.
+
+NOTE:  
+Do not change the directory structure because `bin/shove` assumes
+its libraries exists in `../lib/` directory.
 
 # Usage
 
