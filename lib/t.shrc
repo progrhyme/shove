@@ -10,17 +10,19 @@ __t_verbose=""
 __t_tmpfile="./.__t_tmp.dat"
 
 _t_incr() {
-  local _var=$1
-  local _add=${2:-1}
-  local _cur_var=$(($_var))
+  _var=$1
+  _add=${2:-1}
+  _cur_var=$(($_var))
   eval "${_var}=$(expr $(($_var)) + $_add)"
+  unset _var _add _cur_var
 }
 
 _t_either() {
-  local _t_result=$1
+  _t_result=$1
   _t_incr __t_idx
   _t_incr __t_total
   _t_incr $_t_result
+  unset _t_result
 }
 
 _t_incr_level() {
@@ -35,12 +37,13 @@ _t_put() {
   if [ $__t_level -gt 0 -a -z "$__t_verbose" ]; then
     return
   fi
-  local i=0
+  i=0
   while [ $i -lt $__t_level ]; do
     printf "  "
     i=$(expr $i + 1)
   done
   printf "$1\n"
+  unset i
 }
 
 t_init() {
@@ -48,7 +51,7 @@ t_init() {
   __t_total=0
   __t_ok=0
   __t_ng=0
-  local _cmd=$(ps -p $$ | tail -1 | awk '{print $4}')
+  _cmd=$(ps -p $$ | tail -1 | awk '{print $4}')
   case "$_cmd" in
     *bash )
       __t_shell="bash"
@@ -66,6 +69,7 @@ t_init() {
       __t_shell="not-supported"
       ;;
   esac
+  unset _cmd
 }
 
 t_diag() {
@@ -87,8 +91,8 @@ t_fail() {
 }
 
 t_ok() {
-  local _sbj="$1"
-  local _diag="${2:-}"
+  _sbj="$1"
+  _diag="${2:-}"
   if [ -z "$_diag" ]; then
     _diag="ok $1"
   fi
@@ -97,11 +101,12 @@ t_ok() {
   else
     t_fail "$_diag"
   fi
+  unset _sbj _diag
 }
 
 t_ng() {
-  local _sbj="$1"
-  local _diag="${2:-}"
+  _sbj="$1"
+  _diag="${2:-}"
   if [ -z "$_diag" ]; then
     _diag="ng $1"
   fi
@@ -110,12 +115,13 @@ t_ng() {
   else
     t_pass "$_diag"
   fi
+  unset _sbj _diag
 }
 
 t_is() {
-  local _t_a=$1
-  local _t_b=$2
-  local _diag="${3:-}"
+  _t_a=$1
+  _t_b=$2
+  _diag="${3:-}"
   if [ -z "$_diag" ]; then
     _diag="$1 is $2"
   fi
@@ -124,12 +130,13 @@ t_is() {
   else
     t_fail "$_diag"
   fi
+  unset _t_a _t_b _diag
 }
 
 t_isnt() {
-  local _t_a=$1
-  local _t_b=$2
-  local _diag="${3:-}"
+  _t_a=$1
+  _t_b=$2
+  _diag="${3:-}"
   if [ -z "$_diag" ]; then
     _diag="$1 isn't $2"
   fi
@@ -138,15 +145,16 @@ t_isnt() {
   else
     t_fail "$_diag"
   fi
+  unset _t_a _t_b _diag
 }
 
 _t_try() {
-  local _cmd="$1"
-  local _type=$2
-  local _diag="$3"
-  local _fail=""
+  _cmd="$1"
+  _type=$2
+  _diag="$3"
+  _fail=""
   $_cmd > $__t_tmpfile 2>&1
-  local _ret=$?
+  _ret=$?
   if [ "$_type" = "success" ]; then
     if [ $_ret -ne 0 ]; then
       _fail=1
@@ -163,24 +171,27 @@ _t_try() {
     t_pass "$_diag"
   fi
   rm -f $__t_tmpfile
+  unset _cmd _type _diag _fail _ret
 }
 
 t_success() {
-  local _cmd="$1"
-  local _diag="${2:-}"
+  _cmd="$1"
+  _diag="${2:-}"
   if [ -z "$_diag" ]; then
     _diag="$1 success"
   fi
   _t_try "$_cmd" "success" "$_diag"
+  unset _cmd _diag
 }
 
 t_error() {
-  local _cmd="$1"
-  local _diag="${2:-}"
+  _cmd="$1"
+  _diag="${2:-}"
   if [ -z "$_diag" ]; then
     _diag="$1 error"
   fi
   _t_try "$_cmd" "error" "$_diag"
+  unset _cmd _diag
 }
 
 t_substart() {
