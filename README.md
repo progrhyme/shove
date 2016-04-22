@@ -34,10 +34,9 @@ Fail:
 
 # Supported Shells
 
-- _sh, bash, dash, zsh_
+- _sh, bash, dash, ksh, zsh_
 
-_ash_ is not tested, but supposed to work with **shove**.  
-And _ksh_ will be supported soon.
+_ash_ is not tested, but hopefully supposed to work with **shove**.  
 
 No plan to support _(t)csh_ or _fish_ because they are not POSIX compatible.
 
