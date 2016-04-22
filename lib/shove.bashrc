@@ -9,6 +9,9 @@ T_TOTAL=0
 T_PASS=0
 T_FAIL=0
 
+LF=$(printf '\\\012_')
+LF=${LF%_}
+
 help() {
   pod2text $0
   exit 1
@@ -42,7 +45,25 @@ test_file() {
   if [[ $SHOVE_VERBOSE ]]; then
     _add "__t_verbose=1"
   fi
-  cat $_t >> $tmp
+  cat $_t | while read line; do
+    if [[ "$line" =~ ^[[:space:]]*T_SUB[[:space:]]*.*\(\($ ]]; then
+      #echo "# '$line' matches group beginning."
+      #ws=$(echo $line | cut -f1 -d'T')
+      _item="$(echo $line | sed -e 's/^T_SUB //' | sed -e 's/ (($//')"
+      subtests+=("${_item}")
+      echo $line | sed -e "s/T_SUB/(${LF}t_substart/" | \
+        sed -e 's/ ((//' >> $tmp
+    elif [[ "$line" =~ ^[[:space:]]*\)\)$ ]]; then
+      #echo "# '$line' matches group ending."
+      declare -i num=${#subtests[@]}
+      last=$((num - 1))
+      _item="${subtests[$last]}"
+      subtests=("${subtests[@]:0:$last}")
+      echo $line | sed -e "s/))/t_subclose${LF})${LF}t_subend '${_item}'/" >> $tmp
+    else
+      echo "$line" >> $tmp
+    fi
+  done
   _add "echo 1..\$__t_total"
   _add "t_report $dat"
 
