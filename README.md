@@ -103,6 +103,23 @@ t_error   $cmd "cmd fails"       # $cmd; [ $? -ne 0 ]
 This feature works like `subtest` of
 [Test::More](http://perldoc.perl.org/Test/More.html).
 
+**New special syntax is introduced in v0.7.0:**
+
+```sh
+t_ok $ok
+
+T_SUB "level1 group" ((
+  t_ok $lv1_ok
+
+  T_SUB "level2 group" ((
+    t_ok $lv2_ok
+    t_is $lv2_a $lv2_b
+  ))
+))
+```
+
+The codes above is the same as following codes:
+
 ```sh
 t_ok $ok
 (
