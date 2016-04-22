@@ -1,5 +1,7 @@
 SHOVE_SHELL=
-SHOVE_TMPFILE=./.shove.tmp.sh
+SHOVE_WORKDIR=${SHOVE_WORK_DIR:-"${HOME}/.shove"}
+SHOVE_TMPFILE=${SHOVE_WORKDIR}/t_script.$(date +%Y%m%d%H%m).sh
+SHOVE_KEEPDAYS=${SHOVE_KEEPDAYS:-3}
 SHOVE_VERBOSE=
 SHOVE_DEBUG=${SHOVE_DEBUG:-}
 
@@ -14,6 +16,18 @@ help() {
 
 _add() {
   echo "$1" >> $tmp
+}
+
+purge_tmp_files() {
+  purge_targets=($(find $SHOVE_WORKDIR -type f -mtime +${SHOVE_KEEPDAYS}))
+  if [[ -z "${purge_targets:-}" ]]; then
+    return
+  fi
+  echo -n "# Purge ${#purge_targets[@]} files..."
+  for pt in ${purge_targets[@]}; do
+    rm -f $pt
+  done
+  echo "done."
 }
 
 test_file() {
@@ -46,11 +60,18 @@ test_file() {
 
   if [[ $ret = 0 ]]; then
     echo ok
+    rm -f $tmp
   else
     printf "\033[0;31mnot ok\033[0;39m\n"
+    cat <<EOS >&1
+----
+# To reproduce this, run this:
+#   $SHOVE_SHELL [-x] $tmp
+# Add '-x' to look into it.
+EOS
   fi
 
-  rm -f $tmp $dat
+  rm -f $dat
 }
 
 final_report() {

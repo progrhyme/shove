@@ -11,6 +11,8 @@ if [ $SHOVE_DEBUG ]; then
   set -x
 fi
 
+mkdir -p $SHOVE_WORKDIR
+
 targets=()
 
 # ============================================================
@@ -62,6 +64,8 @@ fi
 
 # ============================================================
 # Main Entry
+
+purge_tmp_files
 
 cat <<EOS >&1
 Run tests by $SHOVE_SHELL
