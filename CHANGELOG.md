@@ -1,3 +1,10 @@
+## 0.7.0 (2016/4/23)
+
+Feature:
+
+- Introduce special syntax `T_SUB <name> (( ... ))` for grouping tests to reduce
+  verbose writings and to make test codes more readable.
+
 ## 0.6.1 (2016/4/23)
 
 Feature:
