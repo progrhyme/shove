@@ -1,3 +1,9 @@
+## 0.6.1 (2016/4/23)
+
+Feature:
+
+- Keep temporary test scripts for a while under working directory for troubleshooting.
+
 ## 0.6.0 (2016/4/22)
 
 Improve:
