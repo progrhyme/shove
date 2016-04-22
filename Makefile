@@ -3,7 +3,7 @@
 BIN     := bin/shove
 VERSION := $(shell $(BIN) -V)
 
-SHELLS := sh bash dash zsh
+SHELLS := sh bash dash ksh zsh
 
 test:
 	@set -e; \
