@@ -42,7 +42,7 @@ No plan to support _(t)csh_ or _fish_ because they are not POSIX compatible.
 
 # Install
 
-Just clone this repository or get tarballs from [releases](releases) page.
+Just clone this repository or get tarballs from [releases](https://github.com/key-amb/shove/releases) page.
 
 ```
 # example snippet to install `shove`
