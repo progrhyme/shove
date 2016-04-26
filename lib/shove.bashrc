@@ -1,6 +1,6 @@
 SHOVE_SHELL=
 SHOVE_WORKDIR=${SHOVE_WORK_DIR:-"${HOME}/.shove"}
-SHOVE_TMPFILE=${SHOVE_WORKDIR}/t_script.$(date +%Y%m%d%H%m).sh
+SHOVE_TMPFILE=${SHOVE_WORKDIR}/t_script.$(date +%Y%m%d%H%M).sh
 SHOVE_KEEPDAYS=${SHOVE_KEEPDAYS:-3}
 SHOVE_VERBOSE=
 SHOVE_DEBUG=${SHOVE_DEBUG:-}
@@ -17,8 +17,16 @@ help() {
   exit 1
 }
 
+# indent
+_lv=0
+_ws() {
+  if [ $_lv -gt 0 ]; then
+    printf '%*s' $((_lv * 2))
+  fi
+}
+
 _add() {
-  echo "$1" >> $tmp
+  echo "$(_ws)$1" >> $tmp
 }
 
 purge_tmp_files() {
@@ -38,7 +46,7 @@ test_file() {
   tmp=$SHOVE_TMPFILE.${t_cnt}
   dat="${tmp}.dat"
 
-  # create tmp test script
+  ## create tmp test script
   : > $tmp
   _add ". ${bin_dir}/../lib/t.shrc"
   _add "t_init"
@@ -48,20 +56,23 @@ test_file() {
   cat $_t | while read line; do
     if [[ "$line" =~ ^[[:space:]]*T_SUB[[:space:]]*.*\(\($ ]]; then
       #echo "# '$line' matches group beginning."
-      #ws=$(echo $line | cut -f1 -d'T')
       _item="$(echo $line | sed -e 's/^T_SUB //' | sed -e 's/ (($//')"
       subtests+=("${_item}")
-      echo $line | sed -e "s/T_SUB/(${LF}t_substart/" | \
-        sed -e 's/ ((//' >> $tmp
+      _add '('
+      : $((_lv += 1))
+      _add "t_substart ${_item}"
     elif [[ "$line" =~ ^[[:space:]]*\)\)$ ]]; then
       #echo "# '$line' matches group ending."
       declare -i num=${#subtests[@]}
       last=$((num - 1))
       _item="${subtests[$last]}"
       subtests=("${subtests[@]:0:$last}")
-      echo $line | sed -e "s/))/t_subclose${LF})${LF}t_subend '${_item}'/" >> $tmp
+      echo "$(_ws)t_subclose" >> $tmp
+      : $((_lv -= 1))
+      _add ')'
+      _add "t_subend ${_item}"
     else
-      echo "$line" >> $tmp
+      _add "$line"
     fi
   done
   _add "echo 1..\$__t_total"

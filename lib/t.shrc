@@ -11,9 +11,8 @@ __t_tmpfile="./.__t_tmp.dat"
 
 _t_incr() {
   _var=$1
-  _add=${2:-1}
   _cur_var=$(($_var))
-  eval "${_var}=$(expr $(($_var)) + $_add)"
+  eval ": $(($_var += 1))"
   unset _var _add _cur_var
 }
 
@@ -26,24 +25,21 @@ _t_either() {
 }
 
 _t_incr_level() {
-  __t_level=$(expr ${__t_level} + 1)
+  : $((__t_level += 1))
 }
 
 _t_decr_level() {
-  __t_level=$(expr ${__t_level} - 1)
+  : $((__t_level -= 1))
 }
 
 _t_put() {
   if [ $__t_level -gt 0 -a -z "$__t_verbose" ]; then
     return
   fi
-  i=0
-  while [ $i -lt $__t_level ]; do
-    printf "  "
-    i=$(expr $i + 1)
-  done
+  if [ $__t_level -gt 0 ]; then
+    printf '%*s' $((__t_level * 2))
+  fi
   printf "$1\n"
-  unset i
 }
 
 t_init() {
