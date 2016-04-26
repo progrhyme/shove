@@ -1,3 +1,13 @@
+## 0.7.1 (2016/4/26)
+
+Minor Improve:
+
+- Add indent to temporary test scripts according to grouping of tests.
+
+Minor Bug Fix:
+
+- Fix format option of `date` command to make temporary test scripts by minutes.
+
 ## 0.7.0 (2016/4/23)
 
 Feature:
