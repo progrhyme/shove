@@ -4,7 +4,6 @@ __t_idx=1
 __t_total=0
 __t_ok=0
 __t_ng=0
-__t_shell=""
 __t_level=0
 __t_verbose=""
 __t_tmpfile="./.__t_tmp.dat"
@@ -47,25 +46,6 @@ t_init() {
   __t_total=0
   __t_ok=0
   __t_ng=0
-  _cmd=$(ps -p $$ | tail -1 | awk '{print $4}')
-  case "$_cmd" in
-    *bash )
-      __t_shell="bash"
-      ;;
-    *zsh )
-      __t_shell="zsh"
-      ;;
-    *dash )
-      __t_shell="dash"
-      ;;
-    *sh )
-      __t_shell="sh"
-      ;;
-    * )
-      __t_shell="not-supported"
-      ;;
-  esac
-  unset _cmd
 }
 
 t_diag() {
