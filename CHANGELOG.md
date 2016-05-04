@@ -1,3 +1,10 @@
+## 0.7.2 (2016/5/4)
+
+Internal Change:
+
+- Add test task by [shpec](https://github.com/rylnd/shpec)
+- Remove unused variable to get running SHELL
+
 ## 0.7.1 (2016/4/26)
 
 Minor Improve:
