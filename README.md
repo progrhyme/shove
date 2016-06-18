@@ -92,8 +92,8 @@ There are some example test codes in [example](example) directory.
 ```sh
 t_ok   $true   "var true is ok"  # [   $true  ]
 t_ng   $false  "var false is ng" # [ ! $false ]
-t_is   $a $b   "a is b"          # [ $a  = $b ]
-t_isnt $a $b   "a isn't b"       # [ $a != $b ]
+t_is   $a $b   "a is b"          # [ "$a"  = "$b" ]
+t_isnt $a $b   "a isn't b"       # [ "$a" != "$b" ]
 t_success $cmd "cmd succeeds"    # $cmd; [ $? -eq 0 ]
 t_error   $cmd "cmd fails"       # $cmd; [ $? -ne 0 ]
 ```
