@@ -12,7 +12,7 @@ _t_incr() {
   _var=$1
   _cur_var=$(($_var))
   eval ": $(($_var += 1))"
-  unset _var _add _cur_var
+  unset _var _cur_var
 }
 
 _t_either() {
