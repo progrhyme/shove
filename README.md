@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/key-amb/shove.svg?branch=master)](https://travis-ci.org/key-amb/shove)
 # shove
 
 A test tool for shell scripts with [TAP](https://testanything.org/) outputs.
