@@ -42,6 +42,10 @@ purge_tmp_files() {
 }
 
 test_file() {
+  if [[ ! -f $1 ]]; then
+    echo "$1: Is not a regular file" >&2
+    exit 1
+  fi
   _t=$1
   tmp=$SHOVE_TMPFILE.${t_cnt}
   dat="${tmp}.dat"
