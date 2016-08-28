@@ -111,13 +111,13 @@ This script runs target test scripts.
 
 =head1 AUTHORS
 
-YASUTAKE Kiyoshi E<lt>yasutake.kiyoshi@gmail.comE<gt>
+IKEDA Kiyoshi E<lt>yasutake.kiyoshi@gmail.comE<gt>
 
 =head1 LICENSE
 
 The MIT License (MIT)
 
-Copyright (c) 2016 YASUTAKE Kiyoshi
+Copyright (c) 2016 IKEDA Kiyoshi
 
 =cut
 
