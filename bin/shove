@@ -2,7 +2,7 @@
 
 set -eu
 
-version="0.7.2"
+version="0.7.3"
 
 bin_dir=$(cd $(dirname $0) && pwd)
 . ${bin_dir}/../lib/shove.bashrc

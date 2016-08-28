@@ -1,3 +1,9 @@
+## 0.7.3 (2016/8/28)
+
+Improve:
+
+- Check target file existence of `shove` command #3 BABAROT
+
 ## 0.7.2 (2016/5/4)
 
 Internal Change:
