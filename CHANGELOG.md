@@ -1,3 +1,18 @@
+## 0.7.4 (2016/9/18)
+
+Enhance:
+
+- Support symlink for `bin/shove` by fetching its path using readlink #4
+
+Internal Change:
+
+- Move `lib/t.shrc` to `lib/shove/t.shrc` #4
+
+Change for Dependency:
+
+- Support new format of `clam.spec` for [clenv](https://github.com/key-amb/clenv)
+v0.3 #4
+
 ## 0.7.3 (2016/8/28)
 
 Improve:
