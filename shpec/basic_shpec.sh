@@ -1,4 +1,4 @@
-. lib/t.shrc
+. lib/shove/t.shrc
 
 test_equal() {
   sbj="$1"

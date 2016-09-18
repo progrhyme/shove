@@ -4,12 +4,15 @@ set -eu
 
 version="0.7.3"
 
-bin_dir=$(cd $(dirname $0) && pwd)
+bin_path=$0
+if [[ -L $0 ]]; then
+  bin_path=$(readlink $0)
+fi
+
+bin_dir=$(cd $(dirname ${bin_path}) && pwd)
 . ${bin_dir}/../lib/shove.bashrc
 
-if [ $SHOVE_DEBUG ]; then
-  set -x
-fi
+[[ ${SHOVE_DEBUG:-} ]] && set -x
 
 mkdir -p $SHOVE_WORKDIR
 
