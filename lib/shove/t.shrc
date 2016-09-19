@@ -66,6 +66,16 @@ t_fail() {
   return 1
 }
 
+_t_pass_or_fail() {
+  _sbj="$1"
+  _diag="$2"
+  if eval "$_sbj"; then
+    t_pass "$2"
+  else
+    t_fail "$2"
+  fi
+}
+
 _t_single() {
   _sbj="$1"
   _diag="${2:-}"
@@ -81,34 +91,10 @@ _t_single() {
   fi
 
   case "$_type" in
-    "ok" )
-      if [ $_sbj ]; then
-        t_pass "$_diag"
-      else
-        t_fail "$_diag"
-      fi
-      ;;
-    "ng" )
-      if [ $_sbj ]; then
-        t_fail "$_diag"
-      else
-        t_pass "$_diag"
-      fi
-      ;;
-    "present" )
-      if [ -n "$_sbj" ]; then
-        t_pass "$_diag"
-      else
-        t_fail "$_diag"
-      fi
-      ;;
-    "blank" )
-      if [ -z "$_sbj" ]; then
-        t_pass "$_diag"
-      else
-        t_fail "$_diag"
-      fi
-      ;;
+    "ok"      ) _t_pass_or_fail "[ $_sbj ]" "$_diag" ;;
+    "ng"      ) _t_pass_or_fail "[ ! $_sbj ]" "$_diag" ;;
+    "present" ) _t_pass_or_fail "[ -n '$_sbj' ]" "$_diag" ;;
+    "blank"   ) _t_pass_or_fail "[ -z '$_sbj' ]" "$_diag" ;;
     * ) echo "Unknown type: ${_type}" >&2; exit 1;;
   esac
   unset _sbj _diag _type
