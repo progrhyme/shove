@@ -18,6 +18,10 @@ Feature:
   - File/directory: `t_exist`, `t_file`, `t_directory`, `t_symlink`
   - Algebraic: `t_eq`, `t_ne`, `t_gt`, `t_ge`, `t_lt`, `t_le`
 
+Bug Fix:
+
+- `t_is`, `t_isnt`: Add quote to arguments for separated strings #5
+
 ## 0.7.4 (2016/9/18)
 
 Enhance:
