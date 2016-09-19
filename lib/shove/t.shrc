@@ -66,62 +66,143 @@ t_fail() {
   return 1
 }
 
-t_ok() {
+_t_pass_or_fail() {
+  _sbj="$1"
+  _diag="$2"
+  if eval "$_sbj"; then
+    t_pass "$2"
+  else
+    t_fail "$2"
+  fi
+}
+
+_t_single() {
   _sbj="$1"
   _diag="${2:-}"
+  _type=$3
   if [ -z "$_diag" ]; then
-    _diag="ok $1"
+    case "$_type" in
+      "ok"        ) _diag="ok $_sbj";;
+      "ng"        ) _diag="ng $_sbj";;
+      "present"   ) _diag="$_sbj is present";;
+      "blank"     ) _diag="$_sbj is blank";;
+      "exist"     ) _diag="$_sbj exists";;
+      "file"      ) _diag="$_sbj is file";;
+      "directory" ) _diag="$_sbj is directory";;
+      "symlink"   ) _diag="$_sbj is symlink";;
+      * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+    esac
   fi
-  if [ $_sbj ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _sbj _diag
+
+  case "$_type" in
+    "ok"        ) _t_pass_or_fail "[ $_sbj ]" "$_diag" ;;
+    "ng"        ) _t_pass_or_fail "[ ! $_sbj ]" "$_diag" ;;
+    "present"   ) _t_pass_or_fail "[ -n '$_sbj' ]" "$_diag" ;;
+    "blank"     ) _t_pass_or_fail "[ -z '$_sbj' ]" "$_diag" ;;
+    "exist"     ) _t_pass_or_fail "[ -e '$_sbj' ]" "$_diag" ;;
+    "file"      ) _t_pass_or_fail "[ -f '$_sbj' ]" "$_diag" ;;
+    "directory" ) _t_pass_or_fail "[ -d '$_sbj' ]" "$_diag" ;;
+    "symlink"   ) _t_pass_or_fail "[ -L '$_sbj' ]" "$_diag" ;;
+    * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+  esac
+  unset _sbj _diag _type
+}
+
+t_ok() {
+  _t_single "$1" "${2:-}" ok
 }
 
 t_ng() {
-  _sbj="$1"
-  _diag="${2:-}"
+  _t_single "$1" "${2:-}" ng
+}
+
+t_present() {
+  _t_single "$1" "${2:-}" present
+}
+
+t_blank() {
+  _t_single "$1" "${2:-}" blank
+}
+
+t_exist() {
+  _t_single "$1" "${2:-}" exist
+}
+
+t_file() {
+  _t_single "$1" "${2:-}" file
+}
+
+t_directory() {
+  _t_single "$1" "${2:-}" directory
+}
+
+t_symlink() {
+  _t_single "$1" "${2:-}" symlink
+}
+
+_t_pair() {
+  _lhs="$1"
+  _rhs="$2"
+  _diag="${3:-}"
+  _type=$4
   if [ -z "$_diag" ]; then
-    _diag="ng $1"
+    case "$_type" in
+      "is"   ) _diag="$_lhs is $_rhs";;
+      "isnt" ) _diag="$_lhs isn't $_rhs";;
+      "eq"   ) _diag="$_lhs == $_rhs";;
+      "ne"   ) _diag="$_lhs != $_rhs";;
+      "gt"   ) _diag="$_lhs > $_rhs";;
+      "ge"   ) _diag="$_lhs >= $_rhs";;
+      "lt"   ) _diag="$_lhs < $_rhs";;
+      "le"   ) _diag="$_lhs <= $_rhs";;
+      * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+    esac
   fi
-  if [ $_sbj ]; then
-    t_fail "$_diag"
-  else
-    t_pass "$_diag"
-  fi
-  unset _sbj _diag
+
+  case "$_type" in
+    "is"   ) _t_pass_or_fail "[ '$_lhs' = '$_rhs' ]" "$_diag" ;;
+    "isnt" ) _t_pass_or_fail "[ '$_lhs' != '$_rhs' ]" "$_diag" ;;
+    "eq"   ) _t_pass_or_fail "[ $_lhs -eq $_rhs ]" "$_diag" ;;
+    "ne"   ) _t_pass_or_fail "[ $_lhs -ne $_rhs ]" "$_diag" ;;
+    "gt"   ) _t_pass_or_fail "[ $_lhs -gt $_rhs ]" "$_diag" ;;
+    "ge"   ) _t_pass_or_fail "[ $_lhs -ge $_rhs ]" "$_diag" ;;
+    "lt"   ) _t_pass_or_fail "[ $_lhs -lt $_rhs ]" "$_diag" ;;
+    "le"   ) _t_pass_or_fail "[ $_lhs -le $_rhs ]" "$_diag" ;;
+    * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+  esac
+  unset _lhs _rhs _diag _type
 }
 
 t_is() {
-  _t_a=$1
-  _t_b=$2
-  _diag="${3:-}"
-  if [ -z "$_diag" ]; then
-    _diag="$1 is $2"
-  fi
-  if [ "$_t_a" = "$_t_b" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _t_a _t_b _diag
+  _t_pair "$1" "$2" "${3:-}" is
 }
 
 t_isnt() {
-  _t_a=$1
-  _t_b=$2
-  _diag="${3:-}"
-  if [ -z "$_diag" ]; then
-    _diag="$1 isn't $2"
-  fi
-  if [ "$_t_a" != "$_t_b" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _t_a _t_b _diag
+  _t_pair "$1" "$2" "${3:-}" isnt
+}
+
+t_eq() {
+  _t_pair "$1" "$2" "${3:-}" eq
+}
+
+t_ne() {
+  _t_pair "$1" "$2" "${3:-}" ne
+}
+
+t_gt() {
+  _t_pair "$1" "$2" "${3:-}" gt
+}
+
+t_ge() {
+  _t_pair "$1" "$2" "${3:-}" ge
+}
+
+t_lt() {
+  _t_pair "$1" "$2" "${3:-}" lt
+}
+
+t_le() {
+  _t_pair "$1" "$2" "${3:-}" le
 }
 
 _t_try() {
