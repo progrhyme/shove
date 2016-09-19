@@ -116,34 +116,33 @@ t_blank() {
   _t_single "$1" "${2:-}" blank
 }
 
-t_is() {
-  _t_a=$1
-  _t_b=$2
+_t_pair() {
+  _lhs="$1"
+  _rhs="$2"
   _diag="${3:-}"
+  _type=$4
   if [ -z "$_diag" ]; then
-    _diag="$1 is $2"
+    case "$_type" in
+      "is"   ) _diag="$_lhs is $_rhs";;
+      "isnt" ) _diag="$_lhs isn't $_rhs";;
+      * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+    esac
   fi
-  if [ "$_t_a" = "$_t_b" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _t_a _t_b _diag
+
+  case "$_type" in
+    "is"   ) _t_pass_or_fail "[ '$_lhs' = '$_rhs' ]" "$_diag" ;;
+    "isnt" ) _t_pass_or_fail "[ '$_lhs' != '$_rhs' ]" "$_diag" ;;
+    * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+  esac
+  unset _lhs _rhs _diag _type
+}
+
+t_is() {
+  _t_pair "$1" "$2" "${3:-}" is
 }
 
 t_isnt() {
-  _t_a=$1
-  _t_b=$2
-  _diag="${3:-}"
-  if [ -z "$_diag" ]; then
-    _diag="$1 isn't $2"
-  fi
-  if [ "$_t_a" != "$_t_b" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _t_a _t_b _diag
+  _t_pair "$1" "$2" "${3:-}" isnt
 }
 
 _t_try() {
