@@ -149,6 +149,12 @@ _t_pair() {
     case "$_type" in
       "is"   ) _diag="$_lhs is $_rhs";;
       "isnt" ) _diag="$_lhs isn't $_rhs";;
+      "eq"   ) _diag="$_lhs == $_rhs";;
+      "ne"   ) _diag="$_lhs != $_rhs";;
+      "gt"   ) _diag="$_lhs > $_rhs";;
+      "ge"   ) _diag="$_lhs >= $_rhs";;
+      "lt"   ) _diag="$_lhs < $_rhs";;
+      "le"   ) _diag="$_lhs <= $_rhs";;
       * ) echo "Unknown type: ${_type}" >&2; exit 1;;
     esac
   fi
@@ -156,6 +162,12 @@ _t_pair() {
   case "$_type" in
     "is"   ) _t_pass_or_fail "[ '$_lhs' = '$_rhs' ]" "$_diag" ;;
     "isnt" ) _t_pass_or_fail "[ '$_lhs' != '$_rhs' ]" "$_diag" ;;
+    "eq"   ) _t_pass_or_fail "[ $_lhs -eq $_rhs ]" "$_diag" ;;
+    "ne"   ) _t_pass_or_fail "[ $_lhs -ne $_rhs ]" "$_diag" ;;
+    "gt"   ) _t_pass_or_fail "[ $_lhs -gt $_rhs ]" "$_diag" ;;
+    "ge"   ) _t_pass_or_fail "[ $_lhs -ge $_rhs ]" "$_diag" ;;
+    "lt"   ) _t_pass_or_fail "[ $_lhs -lt $_rhs ]" "$_diag" ;;
+    "le"   ) _t_pass_or_fail "[ $_lhs -le $_rhs ]" "$_diag" ;;
     * ) echo "Unknown type: ${_type}" >&2; exit 1;;
   esac
   unset _lhs _rhs _diag _type
@@ -167,6 +179,30 @@ t_is() {
 
 t_isnt() {
   _t_pair "$1" "$2" "${3:-}" isnt
+}
+
+t_eq() {
+  _t_pair "$1" "$2" "${3:-}" eq
+}
+
+t_ne() {
+  _t_pair "$1" "$2" "${3:-}" ne
+}
+
+t_gt() {
+  _t_pair "$1" "$2" "${3:-}" gt
+}
+
+t_ge() {
+  _t_pair "$1" "$2" "${3:-}" ge
+}
+
+t_lt() {
+  _t_pair "$1" "$2" "${3:-}" lt
+}
+
+t_le() {
+  _t_pair "$1" "$2" "${3:-}" le
 }
 
 _t_try() {
