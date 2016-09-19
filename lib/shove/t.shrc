@@ -82,19 +82,27 @@ _t_single() {
   _type=$3
   if [ -z "$_diag" ]; then
     case "$_type" in
-      "ok"      ) _diag="ok $_sbj";;
-      "ng"      ) _diag="ng $_sbj";;
-      "present" ) _diag="$_sbj is present";;
-      "blank"   ) _diag="$_sbj is blank";;
+      "ok"        ) _diag="ok $_sbj";;
+      "ng"        ) _diag="ng $_sbj";;
+      "present"   ) _diag="$_sbj is present";;
+      "blank"     ) _diag="$_sbj is blank";;
+      "exist"     ) _diag="$_sbj exists";;
+      "file"      ) _diag="$_sbj is file";;
+      "directory" ) _diag="$_sbj is directory";;
+      "symlink"   ) _diag="$_sbj is symlink";;
       * ) echo "Unknown type: ${_type}" >&2; exit 1;;
     esac
   fi
 
   case "$_type" in
-    "ok"      ) _t_pass_or_fail "[ $_sbj ]" "$_diag" ;;
-    "ng"      ) _t_pass_or_fail "[ ! $_sbj ]" "$_diag" ;;
-    "present" ) _t_pass_or_fail "[ -n '$_sbj' ]" "$_diag" ;;
-    "blank"   ) _t_pass_or_fail "[ -z '$_sbj' ]" "$_diag" ;;
+    "ok"        ) _t_pass_or_fail "[ $_sbj ]" "$_diag" ;;
+    "ng"        ) _t_pass_or_fail "[ ! $_sbj ]" "$_diag" ;;
+    "present"   ) _t_pass_or_fail "[ -n '$_sbj' ]" "$_diag" ;;
+    "blank"     ) _t_pass_or_fail "[ -z '$_sbj' ]" "$_diag" ;;
+    "exist"     ) _t_pass_or_fail "[ -e '$_sbj' ]" "$_diag" ;;
+    "file"      ) _t_pass_or_fail "[ -f '$_sbj' ]" "$_diag" ;;
+    "directory" ) _t_pass_or_fail "[ -d '$_sbj' ]" "$_diag" ;;
+    "symlink"   ) _t_pass_or_fail "[ -L '$_sbj' ]" "$_diag" ;;
     * ) echo "Unknown type: ${_type}" >&2; exit 1;;
   esac
   unset _sbj _diag _type
@@ -114,6 +122,22 @@ t_present() {
 
 t_blank() {
   _t_single "$1" "${2:-}" blank
+}
+
+t_exist() {
+  _t_single "$1" "${2:-}" exist
+}
+
+t_file() {
+  _t_single "$1" "${2:-}" file
+}
+
+t_directory() {
+  _t_single "$1" "${2:-}" directory
+}
+
+t_symlink() {
+  _t_single "$1" "${2:-}" symlink
 }
 
 _t_pair() {
