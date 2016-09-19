@@ -172,9 +172,9 @@ So you can run them in different context from main tests context.
 If you want test groups A and B not affect to each other, you have to put them in
 different groups.
 
-**CAUTION:
+**CAUTION:**
 
-- The old grouping syntax `T_SUB (( ... ))` will be unsupported in the future
+- **The old grouping syntax `T_SUB (( ... ))` will be unsupported in the future
 release.**
 
 # Authors
