@@ -116,11 +116,27 @@ t_error     $cmd  "cmd fails"         # $cmd; [ $? -ne 0 ]
 This feature works like `subtest` of
 [Test::More](http://perldoc.perl.org/Test/More.html).
 
-**New special syntax is introduced in v0.7.0:**
+New special syntax is introduced in v0.8.1:
 
 ```sh
 t_ok $ok
 
+t::group "level1 group" ({
+  t_ok $lv1_ok
+
+  t::group "level2 group" ({
+    t_ok $lv2_ok
+    t_is $lv2_a $lv2_b
+  })
+})
+```
+
+This is compatiable with the syntax introduced in v0.7.0:
+
+```sh
+t_ok $ok
+
+# Deprecated: Use "t::group ({})" instead
 T_SUB "level1 group" ((
   t_ok $lv1_ok
 
@@ -131,7 +147,7 @@ T_SUB "level1 group" ((
 ))
 ```
 
-The codes above is the same as following codes:
+These codes are the same as following codes:
 
 ```sh
 t_ok $ok
@@ -155,6 +171,11 @@ So you can run them in different context from main tests context.
 
 If you want test groups A and B not affect to each other, you have to put them in
 different groups.
+
+**CAUTION:
+
+- The old grouping syntax `T_SUB (( ... ))` will be unsupported in the future
+release.**
 
 # Authors
 
