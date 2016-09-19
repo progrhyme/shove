@@ -2,7 +2,7 @@
 
 set -eu
 
-version="0.8.0"
+version="0.8.1"
 
 bin_path=$0
 if [[ -L $0 ]]; then

@@ -1,3 +1,14 @@
+## 0.8.1 (2016/9/19)
+
+Feature:
+
+- Add new grouping syntax `t::group "$msg" ({ ... })` which is compatiable with
+the old one `T_SUB ((...))` #6
+
+Deprecate:
+
+- To use the old grouping syntax `T_SUB "$msg" (( ... ))` is now deprecated
+
 ## 0.8.0 (2016/9/19)
 
 Feature:
