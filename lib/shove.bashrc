@@ -58,14 +58,21 @@ test_file() {
     _add "__t_verbose=1"
   fi
   cat $_t | while read line; do
-    if [[ "$line" =~ ^[[:space:]]*T_SUB[[:space:]]*.*\(\($ ]]; then
+    if [[ "$line" =~ ^[[:space:]]*t::group[[:space:]]*.*\(\{$ ]]; then
+      #echo "# '$line' matches group beginning."
+      _item="$(echo $line | sed -e 's/^t::group //' | sed -e 's/ ({$//')"
+      subtests+=("${_item}")
+      _add '('
+      : $((_lv += 1))
+      _add "t_substart ${_item}"
+    elif [[ "$line" =~ ^[[:space:]]*T_SUB[[:space:]]*.*\(\($ ]]; then
       #echo "# '$line' matches group beginning."
       _item="$(echo $line | sed -e 's/^T_SUB //' | sed -e 's/ (($//')"
       subtests+=("${_item}")
       _add '('
       : $((_lv += 1))
       _add "t_substart ${_item}"
-    elif [[ "$line" =~ ^[[:space:]]*\)\)$ ]]; then
+    elif [[ "$line" =~ ^[[:space:]]*[\}\)]\)$ ]]; then
       #echo "# '$line' matches group ending."
       declare -i num=${#subtests[@]}
       last=$((num - 1))
