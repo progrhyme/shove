@@ -66,60 +66,68 @@ t_fail() {
   return 1
 }
 
-t_ok() {
+_t_single() {
   _sbj="$1"
   _diag="${2:-}"
+  _type=$3
   if [ -z "$_diag" ]; then
-    _diag="ok $1"
+    case "$_type" in
+      "ok"      ) _diag="ok $_sbj";;
+      "ng"      ) _diag="ng $_sbj";;
+      "present" ) _diag="$_sbj is present";;
+      "blank"   ) _diag="$_sbj is blank";;
+      * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+    esac
   fi
-  if [ $_sbj ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _sbj _diag
+
+  case "$_type" in
+    "ok" )
+      if [ $_sbj ]; then
+        t_pass "$_diag"
+      else
+        t_fail "$_diag"
+      fi
+      ;;
+    "ng" )
+      if [ $_sbj ]; then
+        t_fail "$_diag"
+      else
+        t_pass "$_diag"
+      fi
+      ;;
+    "present" )
+      if [ -n "$_sbj" ]; then
+        t_pass "$_diag"
+      else
+        t_fail "$_diag"
+      fi
+      ;;
+    "blank" )
+      if [ -z "$_sbj" ]; then
+        t_pass "$_diag"
+      else
+        t_fail "$_diag"
+      fi
+      ;;
+    * ) echo "Unknown type: ${_type}" >&2; exit 1;;
+  esac
+  unset _sbj _diag _type
 }
 
-t_present() {
-  _sbj="$1"
-  _diag="${2:-}"
-  if [ -z "$_diag" ]; then
-    _diag="$1 is present"
-  fi
-  if [ -n "$_sbj" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _sbj _diag
+t_ok() {
+  _t_single "$1" "${2:-}" ok
 }
 
 t_ng() {
-  _sbj="$1"
-  _diag="${2:-}"
-  if [ -z "$_diag" ]; then
-    _diag="ng $1"
-  fi
-  if [ $_sbj ]; then
-    t_fail "$_diag"
-  else
-    t_pass "$_diag"
-  fi
-  unset _sbj _diag
+  _t_single "$1" "${2:-}" ng
+}
+
+t_present() {
+  _t_single "$1" "${2:-}" present
 }
 
 t_blank() {
-  _sbj="$1"
-  _diag="${2:-}"
-  if [ -z "$_diag" ]; then
-    _diag="$1 is blank"
-  fi
-  if [ -z "$_sbj" ]; then
-    t_pass "$_diag"
-  else
-    t_fail "$_diag"
-  fi
-  unset _sbj _diag
+  _t_single "$1" "${2:-}" blank
 }
 
 t_is() {
