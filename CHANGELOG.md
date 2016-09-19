@@ -1,3 +1,12 @@
+## 0.8.0 (2016/9/19)
+
+Feature:
+
+- New testing functions #5
+  - String: `t_present`, `t_blank`
+  - File/directory: `t_exist`, `t_file`, `t_directory`, `t_symlink`
+  - Algebraic: `t_eq`, `t_ne`, `t_gt`, `t_ge`, `t_lt`, `t_le`
+
 ## 0.7.4 (2016/9/18)
 
 Enhance:
