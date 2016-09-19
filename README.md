@@ -91,12 +91,24 @@ There are some example test codes in [example](example) directory.
 ## Basics
 
 ```sh
-t_ok   $true   "var true is ok"  # [   $true  ]
-t_ng   $false  "var false is ng" # [ ! $false ]
-t_is   $a $b   "a is b"          # [ "$a"  = "$b" ]
-t_isnt $a $b   "a isn't b"       # [ "$a" != "$b" ]
-t_success $cmd "cmd succeeds"    # $cmd; [ $? -eq 0 ]
-t_error   $cmd "cmd fails"       # $cmd; [ $? -ne 0 ]
+t_ok        $exp  "exp is true"       # [   $exp ]
+t_ng        $exp  "exp is false"      # [ ! $exp ]
+t_present   $str  "str is present"    # [ -n "$str" ]
+t_blank     $str  "str is blank"      # [ -z "$str" ]
+t_exist     $path "path exists"       # [ -e "$path" ]
+t_file      $path "path is file"      # [ -f "$path" ]
+t_directory $path "path is directory" # [ -d "$path" ]
+t_symlink   $path "path is symlink"   # [ -L "$path" ]
+t_is        $a $b "a is b"            # [ "$a"  = "$b" ]
+t_isnt      $a $b "a isn't b"         # [ "$a" != "$b" ]
+t_eq        $x $y "x == y"            # [ $x -eq $y ]
+t_ne        $x $y "x != y"            # [ $x -ne $y ]
+t_gt        $x $y "x >  y"            # [ $x -gt $y ]
+t_ge        $x $y "x >= y"            # [ $x -ge $y ]
+t_lt        $x $y "x <  y"            # [ $x -lt $y ]
+t_le        $x $y "x <= y"            # [ $x -le $y ]
+t_success   $cmd  "cmd succeeds"      # $cmd; [ $? -eq 0 ]
+t_error     $cmd  "cmd fails"         # $cmd; [ $? -ne 0 ]
 ```
 
 ## Grouping
