@@ -80,6 +80,20 @@ t_ok() {
   unset _sbj _diag
 }
 
+t_present() {
+  _sbj="$1"
+  _diag="${2:-}"
+  if [ -z "$_diag" ]; then
+    _diag="$1 is present"
+  fi
+  if [ -n "$_sbj" ]; then
+    t_pass "$_diag"
+  else
+    t_fail "$_diag"
+  fi
+  unset _sbj _diag
+}
+
 t_ng() {
   _sbj="$1"
   _diag="${2:-}"
@@ -90,6 +104,20 @@ t_ng() {
     t_fail "$_diag"
   else
     t_pass "$_diag"
+  fi
+  unset _sbj _diag
+}
+
+t_blank() {
+  _sbj="$1"
+  _diag="${2:-}"
+  if [ -z "$_diag" ]; then
+    _diag="$1 is blank"
+  fi
+  if [ -z "$_sbj" ]; then
+    t_pass "$_diag"
+  else
+    t_fail "$_diag"
   fi
   unset _sbj _diag
 }
