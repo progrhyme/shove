@@ -6,7 +6,7 @@ version="0.8.1"
 
 bin_path=$0
 if [[ -L $0 ]]; then
-  bin_path=$(readlink $0)
+  bin_path=$(realpath $0)
 fi
 
 bin_dir=$(cd $(dirname ${bin_path}) && pwd)
