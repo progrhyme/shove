@@ -1,3 +1,9 @@
+## 0.8.2 (2016/9/25)
+
+Improve:
+
+- Fix problem of `readlink` to work with relative or nested links #9
+
 ## 0.8.1 (2016/9/19)
 
 Feature:
