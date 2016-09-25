@@ -4,13 +4,19 @@ set -eu
 
 version="0.8.1"
 
-bin_path=$0
-if [[ -L $0 ]]; then
-  bin_path=$(readlink $0)
-fi
+current_dir="$(pwd)"
 
-bin_dir=$(cd $(dirname ${bin_path}) && pwd)
-. ${bin_dir}/../lib/shove.bashrc
+bin_path="$0"
+while [[ -L "$bin_path" ]]; do
+  cd "$(dirname $bin_path)"
+  bin_path="$(readlink ${bin_path##*/})"
+done
+
+bin_dir="$(cd "$(dirname ${bin_path})" && pwd)"
+lib_dir="$(cd "${bin_dir}/../lib" && pwd)"
+. "${lib_dir}/shove.bashrc"
+
+cd "$current_dir"
 
 [[ ${SHOVE_DEBUG:-} ]] && set -x
 
