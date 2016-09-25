@@ -1,5 +1,8 @@
 language: sh
 script: make test
+os:
+  - linux
+  - osx
 notifications:
   slack:
     rooms:
