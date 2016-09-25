@@ -52,7 +52,7 @@ test_file() {
 
   ## create tmp test script
   : > $tmp
-  _add ". ${bin_dir}/../lib/shove/t.shrc"
+  _add ". ${lib_dir}/shove/t.shrc"
   _add "t_init"
   if [[ $SHOVE_VERBOSE ]]; then
     _add "__t_verbose=1"
