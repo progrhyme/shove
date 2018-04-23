@@ -8,7 +8,7 @@ Improve:
 
 Feature:
 
-- Add new grouping syntax `t::group "$msg" ({ ... })` which is compatiable with
+- Add new grouping syntax `t::group "$msg" ({ ... })` which is compatible with
 the old one `T_SUB ((...))` #6
 
 Deprecate:
@@ -101,7 +101,7 @@ Tiny Bug Fix:
 
 Improve:
 
-- Quote argument string for compatiability.
+- Quote argument string for compatibility.
 
 ## 0.5.0 (2016/4/21)
 
