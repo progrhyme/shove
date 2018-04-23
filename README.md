@@ -131,7 +131,7 @@ t::group "level1 group" ({
 })
 ```
 
-This is compatiable with the syntax introduced in v0.7.0:
+This is compatible with the syntax introduced in v0.7.0:
 
 ```sh
 t_ok $ok
