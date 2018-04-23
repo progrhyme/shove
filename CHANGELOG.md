@@ -40,7 +40,7 @@ Internal Change:
 
 Change for Dependency:
 
-- Support new format of `clam.spec` for [clenv](https://github.com/key-amb/clenv)
+- Support new format of `clam.spec` for [clenv](https://github.com/progrhyme/clenv)
 v0.3 #4
 
 ## 0.7.3 (2016/8/28)

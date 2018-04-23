@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/key-amb/shove.svg?branch=master)](https://travis-ci.org/key-amb/shove)
+[![Build Status](https://travis-ci.org/progrhyme/shove.svg?branch=master)](https://travis-ci.org/progrhyme/shove)
 # shove
 
 A test tool for shell scripts with [TAP](https://testanything.org/) outputs.
@@ -24,13 +24,13 @@ _"[prove](http://perldoc.perl.org/prove.html)"_ of Perl.
 Pass:
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/key-amb/shove/resource/image/screenshot-pass_01.png" alt="shove-screenshot-pass_01">
+<img src="https://raw.githubusercontent.com/progrhyme/shove/resource/image/screenshot-pass_01.png" alt="shove-screenshot-pass_01">
 </div>
 
 Fail:
 
 <div align="center">
-<img src="https://raw.githubusercontent.com/key-amb/shove/resource/image/screenshot-fail_01.png" alt="shove-screenshot-fail_01">
+<img src="https://raw.githubusercontent.com/progrhyme/shove/resource/image/screenshot-fail_01.png" alt="shove-screenshot-fail_01">
 </div>
 
 # Supported Shells
@@ -43,12 +43,12 @@ No plan to support _(t)csh_ or _fish_ because they are not POSIX compatible.
 
 # Install
 
-Just clone this repository or get tarballs from [releases](https://github.com/key-amb/shove/releases) page.
+Just clone this repository or get tarballs from [releases](https://github.com/progrhyme/shove/releases) page.
 
 ```
 # example snippet to install `shove`
 mkdir ~/src
-git clone https://github.com/key-amb/shove.git ~/src/shove
+git clone https://github.com/progrhyme/shove.git ~/src/shove
 alias shove="$HOME/src/shove/bin/shove"
 shove -V
 ```
