@@ -65,10 +65,11 @@ for opt in "$@"; do
   esac
 done
 
-SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
+export SHOVE_SHELL=${SHOVE_SHELL:-$SHELL}
+SHOVE_SHELL_CMD=$SHOVE_SHELL
 
 if [ $SHOVE_DEBUG ]; then
-  SHOVE_SHELL="$SHOVE_SHELL -x"
+  SHOVE_SHELL_CMD="$SHOVE_SHELL -x"
 fi
 
 # ============================================================
@@ -77,7 +78,7 @@ fi
 purge_tmp_files
 
 cat <<EOS >&1
-Run tests by $SHOVE_SHELL
+Run tests by $SHOVE_SHELL_CMD
 -------------------------
 EOS
 

@@ -1,4 +1,5 @@
 SHOVE_SHELL=
+SHOVE_SHELL_CMD=
 SHOVE_WORKDIR=${SHOVE_WORK_DIR:-"${HOME}/.shove"}
 SHOVE_TMPFILE=${SHOVE_WORKDIR}/t_script.$(date +%Y%m%d%H%M).sh
 SHOVE_KEEPDAYS=${SHOVE_KEEPDAYS:-3}
@@ -92,7 +93,7 @@ test_file() {
   # exec tmp test script
   echo "$_t ..."
   set +e
-  $SHOVE_SHELL $tmp
+  $SHOVE_SHELL_CMD $tmp
   ret=$?
   set -e
 
