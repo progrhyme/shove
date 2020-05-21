@@ -1,10 +1,16 @@
-## 0.8.2 (2016/9/25)
+## 0.8.3 (2020-05-22)
+
+Feature:
+
+- export `SHOVE_SHELL` variable to detect running shell inside test scripts
+
+## 0.8.2 (2016-09-25)
 
 Improve:
 
 - Fix problem of `readlink` to work with relative or nested links #9
 
-## 0.8.1 (2016/9/19)
+## 0.8.1 (2016-09-19)
 
 Feature:
 
@@ -15,7 +21,7 @@ Deprecate:
 
 - To use the old grouping syntax `T_SUB "$msg" (( ... ))` is now deprecated
 
-## 0.8.0 (2016/9/19)
+## 0.8.0 (2016-09-19)
 
 Feature:
 
@@ -28,7 +34,7 @@ Bug Fix:
 
 - `t_is`, `t_isnt`: Add quote to arguments for separated strings #5
 
-## 0.7.4 (2016/9/18)
+## 0.7.4 (2016-09-18)
 
 Enhance:
 
@@ -43,20 +49,20 @@ Change for Dependency:
 - Support new format of `clam.spec` for [clenv](https://github.com/progrhyme/clenv)
 v0.3 #4
 
-## 0.7.3 (2016/8/28)
+## 0.7.3 (2016-08-28)
 
 Improve:
 
 - Check target file existence of `shove` command #3 BABAROT
 
-## 0.7.2 (2016/5/4)
+## 0.7.2 (2016-05-4)
 
 Internal Change:
 
 - Add test task by [shpec](https://github.com/rylnd/shpec)
 - Remove unused variable to get running SHELL
 
-## 0.7.1 (2016/4/26)
+## 0.7.1 (2016-04-26)
 
 Minor Improve:
 
@@ -66,20 +72,20 @@ Minor Bug Fix:
 
 - Fix format option of `date` command to make temporary test scripts by minutes.
 
-## 0.7.0 (2016/4/23)
+## 0.7.0 (2016-04-23)
 
 Feature:
 
 - Introduce special syntax `T_SUB <name> (( ... ))` for grouping tests to reduce
   verbose writings and to make test codes more readable.
 
-## 0.6.1 (2016/4/23)
+## 0.6.1 (2016-04-23)
 
 Feature:
 
 - Keep temporary test scripts for a while under working directory for troubleshooting.
 
-## 0.6.0 (2016/4/22)
+## 0.6.0 (2016-04-22)
 
 Improve:
 
@@ -87,7 +93,7 @@ Improve:
 - Don't use `local` keyword for variable declaration because it's not POSIX and
   not supported in _ksh_.
 
-## 0.5.2 (2016/4/22)
+## 0.5.2 (2016-04-22)
 
 Change:
 
@@ -97,12 +103,12 @@ Tiny Bug Fix:
 
 - "dash" was taken as "sh" at `t_init()`. (But no test uses the shell variable.)
 
-## 0.5.1 (2016/4/22)
+## 0.5.1 (2016-04-22)
 
 Improve:
 
 - Quote argument string for compatibility.
 
-## 0.5.0 (2016/4/21)
+## 0.5.0 (2016-04-21)
 
 Initial release.
