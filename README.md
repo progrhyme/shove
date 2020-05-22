@@ -91,6 +91,8 @@ There are some example test codes in [example](example) directory.
 ## Basics
 
 ```sh
+t_pass      # Always Pass
+t_fail      # Always Fail
 t_ok        $exp  "exp is true"       # [   $exp ]
 t_ng        $exp  "exp is false"      # [ ! $exp ]
 t_present   $str  "str is present"    # [ -n "$str" ]
