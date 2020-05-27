@@ -80,6 +80,8 @@ shove -V|--version
 
 * `-s|--shell SHELL` : SHELL to execute tests. Default is `$SHELL`.
 * `-v|--verbose` : verbose output.
+* `-r|--recursive DIRECTORY` : Search test script files with extension `.t`
+under the directory
 
 # How to write test codes
 
@@ -91,8 +93,9 @@ There are some example test codes in [example](example) directory.
 ## Basics
 
 ```sh
-t_pass      # Always Pass
-t_fail      # Always Fail
+t_diag "Test for your shell scripts"  # Log message visible on the test
+t_pass                                # Always Pass
+t_fail                                # Always Fail
 t_ok        $exp  "exp is true"       # [   $exp ]
 t_ng        $exp  "exp is false"      # [ ! $exp ]
 t_present   $str  "str is present"    # [ -n "$str" ]
@@ -124,29 +127,15 @@ New special syntax is introduced in v0.8.1:
 t_ok $ok
 
 t::group "level1 group" ({
+  t_diag "Comment for level1 tests"
   t_ok $lv1_ok
 
   t::group "level2 group" ({
+    t_diag "Comment for level2 tests"
     t_ok $lv2_ok
     t_is $lv2_a $lv2_b
   })
 })
-```
-
-This is compatible with the syntax introduced in v0.7.0:
-
-```sh
-t_ok $ok
-
-# Deprecated: Use "t::group ({})" instead
-T_SUB "level1 group" ((
-  t_ok $lv1_ok
-
-  T_SUB "level2 group" ((
-    t_ok $lv2_ok
-    t_is $lv2_a $lv2_b
-  ))
-))
 ```
 
 These codes are the same as following codes:
@@ -155,9 +144,11 @@ These codes are the same as following codes:
 t_ok $ok
 (
   t_substart "level1 group"
+  t_diag "Comment for level1 tests"
   t_ok $lv1_ok
   (
     t_substart "level2 group"
+    t_diag "Comment for level2 tests"
     t_ok $lv2_ok
     t_is $lv2_a $lv2_b
     t_subclose
