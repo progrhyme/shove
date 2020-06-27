@@ -53,7 +53,10 @@ test_file() {
 
   ## create tmp test script
   : > $tmp
-  _add ". ${lib_dir}/shove/t.shrc"
+  case "$SHOVE_SHELL" in
+    *zsh ) _add ". ${lib_dir}/shove/t.zshrc";;
+    *    ) _add ". ${lib_dir}/shove/t.shrc";;
+  esac
   _add "t_init"
   if [[ $SHOVE_VERBOSE ]]; then
     _add "__t_verbose=1"
