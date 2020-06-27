@@ -2,7 +2,7 @@
 
 set -eu
 
-version="0.8.3"
+version="0.8.4"
 
 current_dir="$(pwd)"
 

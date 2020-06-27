@@ -1,3 +1,9 @@
+## 0.8.4 (2020-06-27)
+
+Bug Fix: ([#12](https://github.com/progrhyme/shove/pull/12))
+
+- (zsh) `t_success` and `t_error` did not work properly because zshoption `shwordsplit` was not set
+
 ## 0.8.3 (2020-05-22)
 
 Feature:
