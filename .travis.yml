@@ -1,4 +1,7 @@
 language: sh
+arch:
+  - amd64
+  - ppc64le
 script: make test
 os:
   - linux
